@@ -7,6 +7,7 @@
 //
 
 #import "CollectionViewListLayout.h"
+#import "CollectionViewListLayoutInvalidationContext.h"
 
 @interface CollectionViewListLayout ()
 @property (retain) NSMutableDictionary<NSIndexPath *, UICollectionViewLayoutAttributes *> *rowAttributes;
@@ -35,6 +36,11 @@
     self.headerAttributes = nil;
 }
 
++(Class)invalidationContextClass
+{
+    return [CollectionViewListLayoutInvalidationContext class];
+}
+
 -(CGFloat)width
 {
     return (self.inflightWidth ? self.inflightWidth.floatValue : self.collectionView.bounds.size.width);
@@ -48,9 +54,13 @@
     [self.headerAttributes removeAllObjects];
 }
 
--(void)invalidateLayoutWithContext:(UICollectionViewLayoutInvalidationContext *)context
+-(void)invalidateLayoutWithContext:(CollectionViewListLayoutInvalidationContext *)context
 {
     NSLog(@"Invalidate with context");
+    
+    UICollectionViewLayoutAttributes *rowAttr = [self.rowAttributes objectForKey:context.updatedAttributes.indexPath];
+    rowAttr.size = CGSizeMake([self width], context.updatedAttributes.size.height);
+    
     [super invalidateLayoutWithContext:context];
 }
 
@@ -213,36 +223,11 @@
 
 -(UICollectionViewLayoutInvalidationContext *)invalidationContextForPreferredLayoutAttributes:(UICollectionViewLayoutAttributes *)preferredAttributes withOriginalAttributes:(UICollectionViewLayoutAttributes *)originalAttributes
 {
-    NSMutableArray<NSIndexPath *> *rowPaths = [NSMutableArray array];
-    NSMutableArray<NSIndexPath *> *headerPaths = [NSMutableArray array];
+    CollectionViewListLayoutInvalidationContext *result = (CollectionViewListLayoutInvalidationContext *)[super invalidationContextForPreferredLayoutAttributes:preferredAttributes withOriginalAttributes:originalAttributes];
+    result.updatedAttributes = preferredAttributes;
     
-    UICollectionViewLayoutInvalidationContext *result = [super invalidationContextForPreferredLayoutAttributes:preferredAttributes withOriginalAttributes:originalAttributes];
-    NSIndexPath *path = preferredAttributes.indexPath;
-    
-    NSInteger numSections = [self.collectionView.dataSource numberOfSectionsInCollectionView:self.collectionView];
-    BOOL first = YES;
-    for (NSInteger s = path.section; s < numSections; s++)
-    {
-        if (s > path.section)
-            [headerPaths addObject:[NSIndexPath indexPathForItem:0 inSection:s]];
-        
-        NSInteger numRows = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:s];
-        for (NSInteger r = (s == path.section ? path.item : 0); r < numRows; r++)
-        {
-            if (first)
-                NSLog(@"Invalidating rows after %i.%i starting at %i.%i", (int)path.section, (int)path.item, (int)s, (int)r);
-            first = NO;
-            NSIndexPath *itemPath = [NSIndexPath indexPathForItem:r inSection:s];
-            [rowPaths addObject:itemPath];
-        }
-    }
-    
-    UICollectionViewLayoutAttributes *rowAttr = [self.rowAttributes objectForKey:originalAttributes.indexPath];
     CGFloat heightDelta = preferredAttributes.size.height - originalAttributes.size.height;
-    rowAttr.size = CGSizeMake([self width], preferredAttributes.size.height);
     
-    [result invalidateItemsAtIndexPaths:rowPaths];
-    [result invalidateSupplementaryElementsOfKind:UICollectionElementKindSectionHeader atIndexPaths:headerPaths];
     NSLog(@"Preferred attributes height delta %.1f", heightDelta);
     result.contentSizeAdjustment = CGSizeMake(0, heightDelta);
     return result;

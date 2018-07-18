@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F75C204D20FFC81D006D59DA /* CollectionViewListLayoutInvalidationContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F75C204C20FFC81D006D59DA /* CollectionViewListLayoutInvalidationContext.m */; };
 		F7A16BD020FF903100F9C4CE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A16BCF20FF903100F9C4CE /* AppDelegate.m */; };
 		F7A16BD320FF903100F9C4CE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7A16BD220FF903100F9C4CE /* ViewController.m */; };
 		F7A16BD620FF903100F9C4CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F7A16BD420FF903100F9C4CE /* Main.storyboard */; };
@@ -18,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F75C204B20FFC81D006D59DA /* CollectionViewListLayoutInvalidationContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionViewListLayoutInvalidationContext.h; sourceTree = "<group>"; };
+		F75C204C20FFC81D006D59DA /* CollectionViewListLayoutInvalidationContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewListLayoutInvalidationContext.m; sourceTree = "<group>"; };
 		F7A16BCB20FF903100F9C4CE /* CollectionListLayoutTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionListLayoutTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7A16BCE20FF903100F9C4CE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F7A16BCF20FF903100F9C4CE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -77,6 +80,8 @@
 				F7A16BDD20FF903300F9C4CE /* main.m */,
 				F7A16BEA20FF907C00F9C4CE /* ListCollectionViewCell.h */,
 				F7A16BEB20FF907C00F9C4CE /* ListCollectionViewCell.m */,
+				F75C204B20FFC81D006D59DA /* CollectionViewListLayoutInvalidationContext.h */,
+				F75C204C20FFC81D006D59DA /* CollectionViewListLayoutInvalidationContext.m */,
 			);
 			path = CollectionListLayoutTesting;
 			sourceTree = "<group>";
@@ -151,6 +156,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F75C204D20FFC81D006D59DA /* CollectionViewListLayoutInvalidationContext.m in Sources */,
 				F7A16BD320FF903100F9C4CE /* ViewController.m in Sources */,
 				F7A16BDE20FF903300F9C4CE /* main.m in Sources */,
 				F7A16BEC20FF907C00F9C4CE /* ListCollectionViewCell.m in Sources */,
